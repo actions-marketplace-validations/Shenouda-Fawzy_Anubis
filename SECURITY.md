@@ -41,8 +41,8 @@ model*. Do not point the default at a repository with code you would not
 publish. Set `anubis-llm-base-url` to a self-hosted endpoint to keep the diff
 inside your own infrastructure.
 
-See [Where your diff goes](docs/providers.md#where-your-diff-goes) for the
-details and the mitigation.
+See [Providers](docs/providers.md) for the base URLs to point at, including
+self-hosted endpoints that keep the diff in your own infrastructure.
 
 ## Threat model
 
@@ -75,6 +75,12 @@ What Anubis does **not** do, and does not claim to:
   `pull_request_target` gives fork pull requests write access to your
   repository. Prefer `pull_request`, and accept that fork PRs will not have
   access to your model key.
+- **A fork can supply its own reviewers when `anubis-agents` is on.** The
+  custom-agent loader reads `.anubis-agents/` from the pull request's head
+  branch, including a branch that lives in a fork, so an outside contributor can
+  write the instructions that review their own change. Leave `anubis-agents` off
+  if that matters to you. `anubis-allowed-target-branch` narrows the load to
+  pull requests targeting one branch, but it does not restore the fork boundary.
 
 ## Verifying a release
 
